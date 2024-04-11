@@ -13,13 +13,13 @@ router.post(
   "/addnotes",
   forlogin,
   [
-    body("title").isLength({ min: 5 }),
+    body("title").isLength({ min: 3 }),
     body("description").isLength({ min: 8 }),
   ],
   async (req, res) => {
     const errors = validationResult(req);
     const { title, description, tags } = req.body;
-    //if the validation error occured we will show this result
+    //if the validation error occured we  will show this result
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }

@@ -31,16 +31,20 @@ router.post(
   async (req, res) => {
     const errors = validationResult(req);
     //if the validation error occured we will show this result
+    let sucess=false
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      sucess=false
+      return res.status(400).json({ sucess,errors: errors.array() });
     }
     try {
+      
       //we have created this to check whether the user email already exists or not
       let emailFinder = await User.findOne({ email: req.body.email });
       if (emailFinder) {
+        sucess=false
         return res
           .status(500)
-          .json({ error: "User with this emial already exists" });
+          .json({ sucess,error: "User with this emial already exists" });
       }
 
       // if no error comes we will create the new user
@@ -62,11 +66,14 @@ router.post(
         }
       }
       // generate a auth token 
+      sucess=true
       let authToken = jwt.sign(data, secretKey);
-      res.json({authToken});
+      res.json({sucess,authToken});
     } 
     catch (error) {
+      sucess=false
       res.send("some error occured " + error);
+      res.json({sucess});
     }
   }
 )
@@ -83,16 +90,19 @@ router.post('/login',[
     }
     const email=req.body.email
     const password=req.body.password
+    let sucess=false
     try{
         //checking for valid email
         let user=await User.findOne({email:email})
         if (!user){
-            return res.status(500).json({error:'Email not Found'})
+            sucess=false
+            return res.status(500).json({sucess,error:'Email not Found'})
         }
         //checking for valid password
         const userPassword=await bcrypt.compare(password,user.password)
         if(!userPassword){
-            return res.status(500).json({error:'password is wrong'}) 
+          sucess=false
+            return res.status(500).json({sucess,error:'password is wrong'}) 
         }
         const data={
             user:{
@@ -100,7 +110,8 @@ router.post('/login',[
             }
           }
           const authToken = jwt.sign(data, secretKey);
-          res.json({authToken});
+          sucess=true
+          res.json({sucess,authToken});
 
     }
     catch (error) {
