@@ -13,15 +13,20 @@ export default function Addnote() {
 
         //this is use to prevent auto submission of form
         event.preventDefault()
+        try{
         a.addNotes(note.title,note.description,note.tag)
         setNote({title:"",description:"",tag:""})
+        a.showalert('The Note has been added successfully',"success")
+        }
+        catch(err){
+            a.showalert('Ooops! Some internal error occured',"warning")
+        }
         
 
     }
     const onChange1=(event)=>{
         // console.log(event.target.name,event.target.value)
         setNote({...note,[event.target.name]:event.target.value})
-
     }
 
 
@@ -32,7 +37,6 @@ export default function Addnote() {
             <h2 >Add a Note</h2>
                 <div className='form' style={{ border: a.mode === 'light' ? '0.5px solid black' : '0.5px solid white' }}>
                     
-
                     <form>
                         <div className="mb-2">
                             <label htmlFor="title" className="form-label">Title</label>
@@ -42,10 +46,7 @@ export default function Addnote() {
                             <label htmlFor="description" className="form-label">Description</label>
                             <textarea type="text" className="form-control" id="description" name='description' value={note.description} onChange={onChange1}  minLength={5} required/>
                         </div>
-                        {/* <div className="mb-3 form-check">
-            <input type="checkbox" className="form-check-input" id="exampleCheck1"/>
-              <label className="form-check-label" for="exampleCheck1">Check me out</label>
-          </div> */}
+                        
                         <div className="mb-4">
                             <label htmlFor="tag" className="form-label">Tag</label>
                             <input type="text" className="form-control" id="tag" name='tag' value={note.tag} onChange={onChange1} minLength={5} required/>

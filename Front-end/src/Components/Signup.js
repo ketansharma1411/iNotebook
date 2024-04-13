@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
+import notecontext from '../context/notes/notecontext'
 import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
+    const a = useContext(notecontext)
     const host='http://localhost:5000'
     const [credentials,setCredentials]=useState({name:"",email:"",password:"",cpassword:""})
 
     const navigate = useNavigate();
-
 
     const handle=async(event)=>{
         event.preventDefault()
@@ -26,12 +27,10 @@ export default function Signup() {
         //redirect
         localStorage.setItem('token',json.authToken)
         navigate('/')
+        a.showalert('User Created Sucessfully','success')
       }
       else{
-        // <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        //     <strong>Oops!Invalid Credentials</strong> Check Your Email or Password
-        //     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        // </div>
+        a.showalert('Invalid Credentials','danger')
         
         
       }
@@ -62,7 +61,7 @@ export default function Signup() {
                     <input type="password" className="form-control" id="exampleInputPassword2" name="cpassword" value={credentials.cpassword} minLength={5} required onChange={onchange} />
                 </div>
 
-                <button type="submit" onClick={handle} className="btn btn-primary">Submit</button>
+                <button type="submit" onClick={handle} className="btn btn-primary">SignUp</button>
             </form>
         </div>
     )

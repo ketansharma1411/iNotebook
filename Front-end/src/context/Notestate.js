@@ -5,8 +5,8 @@ const Notestate=(props)=> {
     const host='http://localhost:5000'
 
 
-
-    //for seting up the mode of the website
+    //--------------------------------------------------------------------------
+    //for setting up the mode of the website
     let [mode,setmode]=useState('dark')
     let toogle=()=>{
         if(mode==='light'){
@@ -21,7 +21,10 @@ const Notestate=(props)=> {
     let notesinitial=[]
     let [notes,setNotes]=useState(notesinitial)
 
+    //--------------------------------------------------------------------------
 
+    //--------------------------------------------------------------------------
+    // for fetching a notes
     const getAllNotes=async()=>{
       //api call
       const response = await fetch(`${host}/api/notes/fetchnotes`, {
@@ -29,7 +32,7 @@ const Notestate=(props)=> {
         
         headers: {
           "Content-Type": "application/json",
-          "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVmYmQzNDljZjg1NjQ5Y2VjYWQ0NzcwIn0sImlhdCI6MTcxMTAwMjQ5MH0.tvHfgRTBNUv_RfPDeBvtGvijizTg977J6ikW3-S0NFI"
+          "auth-token":localStorage.getItem('token')
         }
       });
       const json=await response.json()
@@ -38,6 +41,8 @@ const Notestate=(props)=> {
 
     }
 
+    //--------------------------------------------------------------------------
+    // for adding a new note
     const addNotes=async(title,description,tags)=>{
       //api call
       const response = await fetch(`${host}/api/notes/addnotes`, {
@@ -45,7 +50,7 @@ const Notestate=(props)=> {
         
         headers: {
           "Content-Type": "application/json",
-          "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVmYmQzNDljZjg1NjQ5Y2VjYWQ0NzcwIn0sImlhdCI6MTcxMTAwMjQ5MH0.tvHfgRTBNUv_RfPDeBvtGvijizTg977J6ikW3-S0NFI"
+          "auth-token":localStorage.getItem('token')
         },
         body: JSON.stringify({title,description,tags})
       });
@@ -61,7 +66,10 @@ const Notestate=(props)=> {
         }
         setNotes(notes.concat(note))
     }
+    //--------------------------------------------------------------------------
 
+    //--------------------------------------------------------------------------
+    // for deleting a new note
     const deletenote=async(id)=>{
       try{
       //api call
@@ -70,13 +78,15 @@ const Notestate=(props)=> {
         
         headers: {
           "Content-Type": "application/json",
-          "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVmYmQzNDljZjg1NjQ5Y2VjYWQ0NzcwIn0sImlhdCI6MTcxMTAwMjQ5MH0.tvHfgRTBNUv_RfPDeBvtGvijizTg977J6ikW3-S0NFI"
+          "auth-token":localStorage.getItem('token')
         }
       });
       const json=await response.json()
+      showalert('The Note has been deleted successfully',"success")
       console.log(json)
     }
     catch(err){
+      showalert('Ooops! Some internal error occured, Try again later',"warning")
       console.log("error occured")
 
     }
@@ -91,14 +101,18 @@ const Notestate=(props)=> {
       setNotes(notes=newnote)
       // console.log(notes)
     }
+    //--------------------------------------------------------------------------
 
+    //--------------------------------------------------------------------------
+    // for updating a new note
     const editnote=async(id,title,description,tag)=>{
       //api call
+      try{
       const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
         method:"PUT", 
         headers: {
           "Content-Type": "application/json",
-          "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjVmYmQzNDljZjg1NjQ5Y2VjYWQ0NzcwIn0sImlhdCI6MTcxMTAwMjQ5MH0.tvHfgRTBNUv_RfPDeBvtGvijizTg977J6ikW3-S0NFI"
+          "auth-token":localStorage.getItem('token')
         },
         body: JSON.stringify({title,description,tag})
 
@@ -106,9 +120,6 @@ const Notestate=(props)=> {
 
       const json=await response.json()
       console.log(json)
-
-
-
 
       //for client side
       let newNote=JSON.parse(JSON.stringify(notes))
@@ -124,16 +135,33 @@ const Notestate=(props)=> {
       }
       // console.log(newNote)
       setNotes(newNote)
-      console.log(notes)
+      // console.log(notes)
+      showalert('The Note has been updated successfully',"success")
+    }
+    catch(err){
+      showalert('Ooops! Some Internal error occured, Try again later',"warning")
+      console.log("some error occured",err)
+    }
       
     }
-
+    //--------------------------------------------------------------------------
     
-
+    // for alerts
+    const [alert,setalert]=useState({message:'',type:''})
+    const showalert=(message,type)=>{
+      setalert({
+        message:message,
+        type:type
+      }
+      )
+      setTimeout(()=>{
+        setalert(null)
+      },3000)
+    }
 
 
   return (
-    <notecontext.Provider value={{mode,toogle,notes,addNotes,deletenote,getAllNotes,editnote}}>
+    <notecontext.Provider value={{mode,toogle,notes,addNotes,deletenote,getAllNotes,editnote,showalert,alert}}>
         {props.children}
     </notecontext.Provider>
   )

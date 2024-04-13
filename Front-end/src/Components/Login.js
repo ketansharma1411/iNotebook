@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useContext,useState } from 'react'
+import notecontext from '../context/notes/notecontext'
 import { useNavigate } from "react-router-dom";
 export default function Login() {
+    const a = useContext(notecontext)
     const host='http://localhost:5000'
     const [credentials,setCredentials]=useState({email:"",password:""})
 
@@ -24,14 +26,11 @@ export default function Login() {
       if (json.sucess===true){
         //redirect
         localStorage.setItem('token',json.authToken)
+        a.showalert('Logged in Sucessfully','success')
         navigate('/')
       }
       else{
-        // <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        //     <strong>Oops!Invalid Credentials</strong> Check Your Email or Password
-        //     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        // </div>
-        
+        a.showalert('Invalid Credentials','warning')
         
       }
     }
@@ -41,7 +40,7 @@ export default function Login() {
 
 
     return (
-        <div className='container my-2'>
+        <div className='container my-3'>
         <form >
             <div className="mb-3">
                 <label for="exampleInputEmail1" className="form-label">Email address</label>
@@ -53,7 +52,7 @@ export default function Login() {
                 <input type="password" name='password' value={credentials.password} onChange={onchange} className="form-control" id="exampleInputPassword1"/>
             </div>
             
-            <button type="submit" onClick={handle} className="btn btn-primary">Submit</button>
+            <button type="submit" onClick={handle} className="btn btn-primary">Login</button>
         </form>
         </div>
     )

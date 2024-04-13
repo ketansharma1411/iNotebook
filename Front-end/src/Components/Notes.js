@@ -2,12 +2,20 @@ import React, { useContext, useEffect,useState,useRef } from 'react'
 import notecontext from '../context/notes/notecontext'
 import Notesitem from './Notesitem'
 import styled from 'styled-components'
+import { useNavigate } from "react-router-dom";
 
 
 export default function Notes() {
+  const navigate = useNavigate();
   const a = useContext(notecontext)
   useEffect(() => {
-    a.getAllNotes()
+    if(localStorage.getItem('token')){
+      a.getAllNotes()
+    }
+    else{
+      navigate('/login')
+    }
+    
   }, [a])
 
   
@@ -17,9 +25,9 @@ export default function Notes() {
   const handle=()=>{
     
     refclose.current.click()
-    console.log('updating the note')
+    // console.log('updating the note')
     
-    console.log(note)
+    // console.log(note)
     a.editnote(note.id,note.etitle,note.edescription,note.etags)
     
     
@@ -36,7 +44,7 @@ const refcont=useRef(null)
     
     refcont.current.click()
     setNote({id:currentnote._id,etitle:currentnote.title,edescription:currentnote.description,etags:currentnote.tags})
-    console.log(currentnote)
+    // console.log(currentnote)
     }
 
   return (
@@ -85,7 +93,7 @@ const refcont=useRef(null)
       </div>
       <div className='outer-container'>
         
-        {a.notes.length===0 && 'NO Saved Notes'}
+        {a.notes.length===0 && 'No Saved Notes'}
         
         {a.notes.map((value,key) => {
           

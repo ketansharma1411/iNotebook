@@ -2,14 +2,19 @@ import { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import notecontext from "../context/notes/notecontext";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
     //we have used this to make add active appearance to the navbar buttons
     const location = useLocation();
-
+    const navigate = useNavigate();
     //this is to use probs
     const a = useContext(notecontext);
+    let handleLogOut=()=>{
+        localStorage.removeItem('token')
+        navigate('/login')
 
+    }
     return (
         <Nav>
             <div>
@@ -73,10 +78,10 @@ export default function Navbar() {
                                     }}
                                 ></i>
                             </div>
-                            <div className="button-quad">
+                            {!localStorage.getItem('token')?<div className="button-quad">
                             <Link class="btn btn-primary mx-1" to="/login" role="button">Login</Link>
                             <Link class="btn btn-primary mx-1" to="/signup" role="button">Signup</Link>
-                            </div>
+                            </div>:<button onClick={handleLogOut}className="btn btn-primary">Logout</button>}
                         </div>
                     </div>
                 </nav>

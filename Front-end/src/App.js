@@ -7,6 +7,7 @@ import { useContext } from 'react';
 import notecontext from './context/notes/notecontext';
 import Login from './Components/Login';
 import Signup from './Components/Signup';
+import Alert from './Components/Alert';
 
 
 
@@ -32,6 +33,7 @@ function App() {
     
     <Router>
     <Navbar/>
+    <Alert/>
     <Routes>
       <Route exact path='/' element={<Home/>}></Route>
       <Route exact path='/about' element={<About/>}></Route>

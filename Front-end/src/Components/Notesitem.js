@@ -15,7 +15,7 @@ export default function Notesitem(props) {
                     {/* <h6 className="card-subtitle mb-2 text-muted">Card subtitle</h6> */}
                     <p className="card-text">{props.data.description}</p>
                     <p className='card-text'>{props.data.tags}</p>
-                    <i className="fa-solid fa-trash" onClick={()=>{a.deletenote(props.data._id)}}></i>
+                    <i className="fa-solid fa-trash" onClick={()=>{a.deletenote(props.data._id) }}></i>
                     <i className="fa-solid fa-pen-to-square" onClick={()=>{props.updatenote(props.data)}}></i>
                 </div>
             </div>
