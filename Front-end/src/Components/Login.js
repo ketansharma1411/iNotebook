@@ -40,7 +40,8 @@ export default function Login() {
 
 
     return (
-        <div className='container my-3'>
+        <div className='container my-3 ' style={{width:"700px"}}>
+          <center><h3 style={{marginBottom:"20px"}}>Login to use iNotebook</h3></center>
         <form >
             <div className="mb-3">
                 <label for="exampleInputEmail1" className="form-label">Email address</label>

@@ -81,7 +81,7 @@ export default function Navbar() {
                             {!localStorage.getItem('token')?<div className="button-quad">
                             <Link class="btn btn-primary mx-1" to="/login" role="button">Login</Link>
                             <Link class="btn btn-primary mx-1" to="/signup" role="button">Signup</Link>
-                            </div>:<button onClick={handleLogOut}className="btn btn-primary">Logout</button>}
+                            </div>:<button style={{marginRight:"35px",marginLeft:"-10px"}} onClick={handleLogOut}className="btn btn-primary">Logout</button>}
                         </div>
                     </div>
                 </nav>
@@ -97,12 +97,12 @@ const Nav = styled.div`
     border-radius: 50%;
     border: 1px solid black;
     margin-right: 50px;
-    margin-top: 4px;
+    margin-top: 3px;
   }
   .modechanger i {
     font-size: 20px;
-    margin-left: 6px;
-    margin-top: 3px;
+    margin-left: 5px;
+    margin-top: 2.5px;
     cursor: pointer;
   }
   .btn{

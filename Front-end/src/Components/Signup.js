@@ -11,8 +11,13 @@ export default function Signup() {
 
     const handle=async(event)=>{
         event.preventDefault()
-              //api call
-      const {name,email,password}=credentials
+      //api call
+      const {name,email,password,cpassword}=credentials
+      console.log(cpassword)
+      if (password!==cpassword){
+        a.showalert('Password not matched',"warning")
+      }
+      else{
       const response = await fetch(`${host}/api/auth/createuser`, {
         method:"POST", 
         headers: {
@@ -21,9 +26,8 @@ export default function Signup() {
         body: JSON.stringify({name,email,password})
       });
       const json=await response.json()
-      console.log(json)
-      console.log(json.sucess)
-      if (json.sucess===true){
+      
+      if (json.sucess===true && password===cpassword){
         //redirect
         localStorage.setItem('token',json.authToken)
         navigate('/')
@@ -31,16 +35,16 @@ export default function Signup() {
       }
       else{
         a.showalert('Invalid Credentials','danger')
-        
-        
       }
+    }
     }
     const onchange=(event)=>{
         setCredentials({...credentials,[event.target.name]:event.target.value})
     }
 
     return (
-        <div className='container my-3'>
+        <div className='container my-3' style={{width:"700px"}}>
+            <center><h3 style={{marginBottom:"20px"}}>Create a New Account</h3></center>
             <form>
                 <div className="mb-3">
                     <label htmlFor="exampleInputname1" className="form-label">Username</label>
@@ -56,9 +60,10 @@ export default function Signup() {
                     <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
                     <input type="password" name="password" value={credentials.password} className="form-control" id="exampleInputPassword1" minLength={5} required onChange={onchange} />
                 </div>
-                <div className="mb-3">
+                <div className="mb-3" style={{position:"relative"}}>
                     <label htmlFor="exampleInputPassword2" className="form-label">Confirm Password</label>
                     <input type="password" className="form-control" id="exampleInputPassword2" name="cpassword" value={credentials.cpassword} minLength={5} required onChange={onchange} />
+                    { credentials.cpassword && (credentials.cpassword===credentials.password ? <span style={{color:"green",position:"absolute",left:"690px",top:"37px"}}><i class="fa-regular fa-square-check"></i></span>:<span style={{color:"red",position:"absolute",left:"690px",top:"37px"}}><i class="fa-solid fa-square-xmark"></i></span>)}
                 </div>
 
                 <button type="submit" onClick={handle} className="btn btn-primary">SignUp</button>
