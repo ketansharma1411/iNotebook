@@ -45,7 +45,7 @@ export default function Signup() {
     return (
         <div className='container my-3' style={{width:"700px"}}>
             <center><h3 style={{marginBottom:"20px"}}>Create a New Account</h3></center>
-            <form>
+            <form onSubmit={handle}>
                 <div className="mb-3">
                     <label htmlFor="exampleInputname1" className="form-label">Username</label>
                     <input type="text" className="form-control" id="exampleInputName1" name='name' value={credentials.name} aria-describedby="nameHelp" minLength={5} required onChange={onchange}/>
@@ -66,7 +66,7 @@ export default function Signup() {
                     { credentials.cpassword && (credentials.cpassword===credentials.password ? <span style={{color:"green",position:"absolute",left:"690px",top:"37px"}}><i class="fa-regular fa-square-check"></i></span>:<span style={{color:"red",position:"absolute",left:"690px",top:"37px"}}><i class="fa-solid fa-square-xmark"></i></span>)}
                 </div>
 
-                <button type="submit" onClick={handle} className="btn btn-primary">SignUp</button>
+                <button type="submit"  className="btn btn-primary">SignUp</button>
             </form>
         </div>
     )

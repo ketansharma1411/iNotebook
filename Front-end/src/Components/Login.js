@@ -42,7 +42,7 @@ export default function Login() {
     return (
         <div className='container my-3 ' style={{width:"700px"}}>
           <center><h3 style={{marginBottom:"20px"}}>Login to use iNotebook</h3></center>
-        <form >
+        <form onSubmit={handle}>
             <div className="mb-3">
                 <label for="exampleInputEmail1" className="form-label">Email address</label>
                 <input type="email" name='email' value={credentials.email} onChange={onchange} className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>
@@ -53,7 +53,7 @@ export default function Login() {
                 <input type="password" name='password' value={credentials.password} onChange={onchange} className="form-control" id="exampleInputPassword1"/>
             </div>
             
-            <button type="submit" onClick={handle} className="btn btn-primary">Login</button>
+            <button type="submit"  className="btn btn-primary">Login</button>
         </form>
         </div>
     )
