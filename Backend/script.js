@@ -9,7 +9,6 @@ const port = 5000
 //middleware
 app.use(express.json())
 app.use(cors())
-
 //available routers
 
 app.use('/api/auth',require('./routes/auth'))

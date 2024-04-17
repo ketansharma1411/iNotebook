@@ -4,6 +4,7 @@ const router = express.Router();
 //custom middleware used for checking the login status of the user
 var forlogin=require('../middleware/forlogin')
 
+
 //for hashing the password
 const bcrypt = require("bcryptjs");
 
@@ -20,7 +21,7 @@ const User = require("../models/User");
 
 //initialization of routers
 
-// ROUTE:1 ==> to create a new user<< api/auth/createuser/ >>:No login required
+// ROUTE:1 ==> to create a new user<< api/auth/createuser/ >>:No login required ::signup
 router.post(
   "/createuser",
   [
@@ -29,6 +30,10 @@ router.post(
     body("name").isLength({ min: 3 }),
   ],
   async (req, res) => {
+    
+
+
+
     const errors = validationResult(req);
     //if the validation error occured we will show this result
     let sucess=false
@@ -37,6 +42,7 @@ router.post(
       return res.status(400).json({ sucess,errors: errors.array() });
     }
     try {
+      
       
       //we have created this to check whether the user email already exists or not
       let emailFinder = await User.findOne({ email: req.body.email });

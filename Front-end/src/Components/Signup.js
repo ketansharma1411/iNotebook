@@ -45,7 +45,7 @@ export default function Signup() {
     return (
         <div className='container my-3' style={{width:"700px"}}>
             <center><h3 style={{marginBottom:"20px"}}>Create a New Account</h3></center>
-            <form onSubmit={handle}>
+            <form onSubmit={handle} enctype="multipart/form-data">
                 <div className="mb-3">
                     <label htmlFor="exampleInputname1" className="form-label">Username</label>
                     <input type="text" className="form-control" id="exampleInputName1" name='name' value={credentials.name} aria-describedby="nameHelp" minLength={5} required onChange={onchange}/>

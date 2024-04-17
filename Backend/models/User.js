@@ -18,6 +18,9 @@ const userSchema = new Schema({
     date:{
         type:Date,
         default:Date.now
+    },
+    avatar:{
+        type:String
     }
   });
 let User=mongoose.model('user',userSchema)
